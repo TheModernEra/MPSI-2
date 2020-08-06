@@ -2,7 +2,6 @@
 //  ViewController.swift
 //  MPSI 2
 //
-//  Created by Bennett Rosenthal on 8/5/20.
 //  Copyright © 2020 ModernEra. All rights reserved.
 //
 
