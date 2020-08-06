@@ -7,13 +7,15 @@
 //
 
 import Cocoa
-import Foundation 
+import Foundation
+import Alamofire
+import SSZipArchive
 
 class ViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("sup")
         // Do any additional setup after loading the view.
     }
 
