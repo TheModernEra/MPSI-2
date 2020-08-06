@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A41F5ED524DBDD5B004D4605 /* adb in Resources */ = {isa = PBXBuildFile; fileRef = A41F5ED424DBDD5B004D4605 /* adb */; };
+		A41F5ED724DBDF9C004D4605 /* DispatchQueue+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41F5ED624DBDF9C004D4605 /* DispatchQueue+Extensions.swift */; };
 		A4533E9E24DB803B007A9E56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4533E9D24DB803B007A9E56 /* AppDelegate.swift */; };
 		A4533EA024DB803B007A9E56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4533E9F24DB803B007A9E56 /* ViewController.swift */; };
 		A4533EA224DB803C007A9E56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4533EA124DB803C007A9E56 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 		52F31B16A1D2A5F00FCE845B /* Pods-MPSI 2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPSI 2.debug.xcconfig"; path = "Target Support Files/Pods-MPSI 2/Pods-MPSI 2.debug.xcconfig"; sourceTree = "<group>"; };
 		765639FB28A7BDA45B949018 /* Pods-MPSI 2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPSI 2.release.xcconfig"; path = "Target Support Files/Pods-MPSI 2/Pods-MPSI 2.release.xcconfig"; sourceTree = "<group>"; };
 		A41F5ED424DBDD5B004D4605 /* adb */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = adb; sourceTree = "<group>"; };
+		A41F5ED624DBDF9C004D4605 /* DispatchQueue+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Extensions.swift"; sourceTree = "<group>"; };
 		A4533E9A24DB803B007A9E56 /* MPSI 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MPSI 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4533E9D24DB803B007A9E56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A4533E9F24DB803B007A9E56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				A4533EA324DB803C007A9E56 /* Main.storyboard */,
 				A4533EA624DB803C007A9E56 /* Info.plist */,
 				A4533EA724DB803C007A9E56 /* MPSI_2.entitlements */,
+				A41F5ED624DBDF9C004D4605 /* DispatchQueue+Extensions.swift */,
 			);
 			path = "MPSI 2";
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A41F5ED724DBDF9C004D4605 /* DispatchQueue+Extensions.swift in Sources */,
 				A4533EA024DB803B007A9E56 /* ViewController.swift in Sources */,
 				A4533E9E24DB803B007A9E56 /* AppDelegate.swift in Sources */,
 			);
