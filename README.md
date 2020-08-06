@@ -1,4 +1,4 @@
-# MPSI 2: The Sequel No One Asked For
+# MPSI 2: The Sequel Nobody Asked For
 a native macOS app for installing the Oculus Quest game "Pavlov: Shack"
 
 # How do I use it?
