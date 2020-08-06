@@ -15,7 +15,6 @@ class ViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("sup")
         // Do any additional setup after loading the view.
     }
 
@@ -24,7 +23,24 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
-
+    @IBOutlet weak var installationLabel: NSTextField!
+    
+    @IBOutlet weak var nameTextField: NSTextField!
+    
+    @IBAction func downloadButtonPressed(_ sender: Any) {
+        installationLabel.stringValue = "pog button in disguise baby"
+    }
+    
+    @IBAction func installButtonPressed(_ sender: Any) {
+    
+    }
+    
+    @IBAction func permsButtonPressed(_ sender: Any) {
+    
+    }
+    
+    @IBAction func nameButtonPressed(_ sender: Any) {
+    
+    }
 }
 
