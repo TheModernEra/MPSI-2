@@ -12,6 +12,8 @@ import SSZipArchive
 
 class ViewController: NSViewController {
     let defaultMessage = "Welcome to MPSI. First, click the Download Game button to download Pavlov: Shack."
+    let pavlovBuildName = "PreReleaseBuild23_PavlovShack_A"
+    let usernameFilePath = NSString(string: "~").expandingTildeInPath
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,42 @@ class ViewController: NSViewController {
     @IBOutlet weak var nameTextField: NSTextField!
     
     @IBAction func downloadButtonPressed(_ sender: Any) {
-        installationLabel.stringValue = "pog button in disguise baby"
+        let path = NSString(string: "~/Downloads/\(pavlovBuildName).zip").expandingTildeInPath
+        let fileDoesExist = FileManager.default.fileExists(atPath: path)
+        if fileDoesExist == true {
+            installationLabel.stringValue = "Looks like you already have the game files downloaded! Unzipping them now..."
+            Dispatch.background {
+                SSZipArchive.unzipFile(atPath: "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName).zip", toDestination: "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)")
+
+                Dispatch.main {
+                    self.installationLabel.stringValue = "Game files unzipped! You can now enter your name in the box in the middle, then press install game."
+                }
+            }
+            
+        } else {
+            installationLabel.stringValue = "Game files not found. Downloading them now. This text will update when the download is finished, please be patient!"
+                let destination: DownloadRequest.Destination = { _, _ in
+                let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+                let fileURL = documentsURL.appendingPathComponent("\(self.pavlovBuildName).zip")
+                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+                    }
+
+                AF.download("http://34.98.81.223/\(self.pavlovBuildName).zip", to: destination).response { response in
+                debugPrint(response)
+
+                if response.error == nil, let imagePath = response.fileURL?.path {
+                let image = NSImage(contentsOfFile: imagePath)
+                self.installationLabel.stringValue = "Download complete! Unzipping downloaded game files..."
+                Dispatch.background {
+                SSZipArchive.unzipFile(atPath: "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName).zip", toDestination: "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)")
+
+                Dispatch.main {
+                self.installationLabel.stringValue = "Game files downloaded and unzipped! You can now enter your name in the box in the middle, then press install game."
+                        }
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func installButtonPressed(_ sender: Any) {
@@ -64,7 +101,39 @@ class ViewController: NSViewController {
     }
     
     @IBAction func nameButtonPressed(_ sender: Any) {
+    let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
+           
+    @discardableResult
+    func shell(_ args: String...) -> Int32 {
+    let task = Process()
+    task.launchPath = stringPath
+    task.arguments = args
+    task.launch()
+    task.waitUntilExit()
+    return task.terminationStatus
+    }
+        
+     var nameGiven = "null"
+     nameGiven = nameTextField.stringValue
     
+     let data:NSData = nameGiven.data(using: String.Encoding.utf8)! as NSData
+     if let dir : NSString = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.downloadsDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true).first as NSString? {
+
+         data.write(toFile: "\(dir)/name.txt", atomically: true)
+     }
+    _ = shell("-d", "push", "\(usernameFilePath)/Downloads/name.txt", "/sdcard/pavlov.name.txt")
+        do {
+            let fileManager = FileManager.default
+            try fileManager.removeItem(atPath: "\(usernameFilePath)/Downloads/name.txt")
+        }
+        catch {
+            print("name.txt deletion failed.")
+        }
+        installationLabel.stringValue = "Name set!"
+        let seconds = 3.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.installationLabel.stringValue = "\(self.defaultMessage)"
+        }
     }
 }
 
