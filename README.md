@@ -1,5 +1,8 @@
-# MPSI 2: The Sequel Nobody Asked For
+# MPSI 2
 a native macOS app for installing the Oculus Quest game "Pavlov: Shack"
+
+# What are the requirements?
+The app will only run on macOS 10.14 and higher. I tried to get lower compatibility working but the file management framework I'm using only supports 10.14 and above. I'm currently looking for a solution for lower macOS versions.
 
 # How do I use it?
 1. Go to https://github.com/TheModernEra/MPSI-2/releases
