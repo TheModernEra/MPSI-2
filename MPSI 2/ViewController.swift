@@ -19,7 +19,7 @@ import SSZipArchive
 
 class ViewController: NSViewController {
     let defaultMessage = "Welcome to MPSI. First, click the Download Game button to download Pavlov: Shack."
-    let pavlovBuildName = "PreReleaseBuild23_PavlovShack_A"
+    let pavlovBuildName = "PreReleaseBuild23_PavlovShack_B"
     let usernameFilePath = NSString(string: "~").expandingTildeInPath
     let obbName = "main.22.com.vankrupt.pavlov.obb"
     
