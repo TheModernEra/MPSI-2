@@ -835,6 +835,17 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xWF-mq-ljT">
+                                <rect key="frame" x="166" y="1" width="142" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Delete Maps Folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SJG-KX-CGy">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system" size="11"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="mapsButtonPressed:" target="XfG-lQ-9wD" id="DP0-OQ-7ii"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>

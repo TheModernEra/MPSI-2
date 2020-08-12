@@ -258,6 +258,27 @@ class ViewController: NSViewController {
             self.installationLabel.stringValue = "\(self.defaultMessage)"
         }
     }
+    @IBAction func mapsButtonPressed(_ sender: Any) {
+    let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
+           
+    @discardableResult
+    func shell(_ args: String...) -> Int32 {
+    let task = Process()
+    task.launchPath = stringPath
+    task.arguments = args
+    task.launch()
+    task.waitUntilExit()
+    return task.terminationStatus
+    }
+
+    _ = shell("shell", "rm", "-r", "/sdcard/pavlov/maps")
+        
+    installationLabel.stringValue = "Maps folder deleted!"
+    let seconds = 3.0
+    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+        self.installationLabel.stringValue = "\(self.defaultMessage)"
+    }
+    }
 }
 
 
