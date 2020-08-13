@@ -213,6 +213,7 @@ class ViewController: NSViewController {
             _ = shell("-d", "shell", "pm", "grant", "com.vankrupt.pavlov", "android.permission.RECORD_AUDIO")
             _ = shell("-d", "shell", "pm", "grant", "com.vankrupt.pavlov", "android.permission.READ_EXTERNAL_STORAGE")
             _ = shell("-d", "shell", "pm", "grant", "com.vankrupt.pavlov", "android.permission.WRITE_EXTERNAL_STORAGE")
+            _ = shell("-d", "kill-server")
             Dispatch.main {
                 self.installationLabel.stringValue = "Permissions set!"
                 let seconds = 3.0
@@ -245,6 +246,7 @@ class ViewController: NSViewController {
          data.write(toFile: "\(dir)/name.txt", atomically: true)
      }
     _ = shell("-d", "push", "\(usernameFilePath)/Downloads/name.txt", "/sdcard/pavlov.name.txt")
+    _ = shell("-d", "kill-server")
         do {
             let fileManager = FileManager.default
             try fileManager.removeItem(atPath: "\(usernameFilePath)/Downloads/name.txt")
@@ -272,6 +274,7 @@ class ViewController: NSViewController {
     }
 
     _ = shell("shell", "rm", "-r", "/sdcard/pavlov/maps")
+    _ = shell("-d", "kill-server")
         
     installationLabel.stringValue = "Maps folder deleted!"
     let seconds = 3.0
