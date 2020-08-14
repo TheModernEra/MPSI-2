@@ -19,7 +19,7 @@ import SSZipArchive
 
 class ViewController: NSViewController {
     let defaultMessage = "Welcome to MPSI. First, click the Download Game button to download Pavlov: Shack."
-    let pavlovBuildName = "PreReleaseBuild23_PavlovShack_B"
+    let pavlovBuildName = "PreReleaseBuild23_PavlovShack_C"
     let usernameFilePath = NSString(string: "~").expandingTildeInPath
     let obbName = "main.22.com.vankrupt.pavlov.obb"
     
@@ -79,7 +79,7 @@ class ViewController: NSViewController {
                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
                     }
 
-                AF.download("http://34.98.81.223/\(self.pavlovBuildName).zip", to: destination).response { response in
+                AF.download("http://cdn.pavlov-vr.com/\(self.pavlovBuildName).zip", to: destination).response { response in
                 debugPrint(response)
 
                 if response.error == nil, let imagePath = response.fileURL?.path {
