@@ -110,6 +110,9 @@ class ViewController: NSViewController {
         } else {
             var nameGiven = "null"
             nameGiven = nameTextField.stringValue
+            if nameGiven == "" {
+                nameGiven = "I Use A Mac"
+            }
             
              let data:NSData = nameGiven.data(using: String.Encoding.utf8)! as NSData
              if let dir : NSString = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.downloadsDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true).first as NSString? {
@@ -278,6 +281,8 @@ class ViewController: NSViewController {
             self.installationLabel.stringValue = "\(self.defaultMessage)"
         }
     } else {
+        installationLabel.stringValue = "Pushing Android_ATSC.pak..."
+    
         @discardableResult
         func shell(_ args: String...) -> Int32 {
         let task = Process()
