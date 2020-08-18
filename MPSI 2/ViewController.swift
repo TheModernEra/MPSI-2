@@ -56,9 +56,12 @@ class ViewController: NSViewController {
     }
     @IBOutlet weak var installationLabel: NSTextField!
     
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    
     @IBOutlet weak var nameTextField: NSTextField!
     
     @IBAction func downloadButtonPressed(_ sender: Any) {
+        self.progressIndicator.startAnimation(self)
         let path = NSString(string: "~/Downloads/\(pavlovBuildName).zip").expandingTildeInPath
         let fileDoesExist = FileManager.default.fileExists(atPath: path)
         if fileDoesExist == true {
@@ -68,6 +71,7 @@ class ViewController: NSViewController {
 
                 Dispatch.main {
                     self.installationLabel.stringValue = "Game files unzipped! You can now enter your name in the box in the middle, then press install game."
+                    self.progressIndicator.stopAnimation(self)
                 }
             }
             
@@ -90,6 +94,7 @@ class ViewController: NSViewController {
 
                 Dispatch.main {
                 self.installationLabel.stringValue = "Game files downloaded and unzipped! You can now enter your name in the box in the middle, then press install game."
+                    self.progressIndicator.stopAnimation(self)
                         }
                     }
                 }
@@ -111,7 +116,7 @@ class ViewController: NSViewController {
 
                  data.write(toFile: "\(dir)/name.txt", atomically: true)
              }
-            installationLabel.stringValue = "Beginning game installation! Deleting previous installations..."
+            installationLabel.stringValue = "Beginning game installation! Looking for Quest. If your Quest is plugged in and you're stuck here, try a different USB port or a different cable."
             let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
             
             @discardableResult
@@ -134,7 +139,8 @@ class ViewController: NSViewController {
                  _ = shell("-d", "shell", "rm", "-r", "/sdcard/obb/com.vankrupt.pavlov")
                  _ = shell("-d", "shell", "rm", "-r", "/sdcard/Android/obb/com.vankrupt.pavlov")
                  
-                self.installationLabel.stringValue = "Previous installs deleted! Pushing apk..."
+                self.progressIndicator.startAnimation(self)
+                self.installationLabel.stringValue = "Quest found and previous version deleted! Pushing apk..."
                  
                 _ = shell("-d", "install", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/Pavlov-Android-Shipping-arm64-es2.apk")
                  
@@ -186,7 +192,8 @@ class ViewController: NSViewController {
                 }
                
                 Dispatch.main {
-                     self.installationLabel.stringValue = "Installation complete. You can now close MPSI. Enjoy Pavlov: Shack!"
+                    self.installationLabel.stringValue = "Installation complete. You can now close MPSI. Enjoy Pavlov: Shack!"
+                    self.progressIndicator.stopAnimation(self)
                     let seconds = 10.0
                     DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                         self.installationLabel.stringValue = "\(self.defaultMessage)"
@@ -262,26 +269,42 @@ class ViewController: NSViewController {
     }
     @IBAction func mapsButtonPressed(_ sender: Any) {
     let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
-           
-    @discardableResult
-    func shell(_ args: String...) -> Int32 {
-    let task = Process()
-    task.launchPath = stringPath
-    task.arguments = args
-    task.launch()
-    task.waitUntilExit()
-    return task.terminationStatus
-    }
+    let path = NSString(string: "~/Downloads/Android_ASTC.pak").expandingTildeInPath
+    let fileDoesExist = FileManager.default.fileExists(atPath: path)
+    if fileDoesExist == false {
+        installationLabel.stringValue = "Android_ASTC.pak not found in Downloads folder."
+        let seconds = 5.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.installationLabel.stringValue = "\(self.defaultMessage)"
+        }
+    } else {
+        @discardableResult
+        func shell(_ args: String...) -> Int32 {
+        let task = Process()
+        task.launchPath = stringPath
+        task.arguments = args
+        task.launch()
+        task.waitUntilExit()
+        return task.terminationStatus
+        }
 
-    _ = shell("shell", "rm", "-r", "/sdcard/pavlov/maps")
-    _ = shell("-d", "kill-server")
+        self.progressIndicator.startAnimation(self)
         
-    installationLabel.stringValue = "Maps folder deleted!"
-    let seconds = 3.0
-    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-        self.installationLabel.stringValue = "\(self.defaultMessage)"
+        Dispatch.background {
+            _ = shell("push", "\(self.usernameFilePath)/Downloads/Android_ASTC.pak", "/sdcard/pavlov/maps/test_map/Android_ASTC.pak")
+            _ = shell("-d", "kill-server")
+            Dispatch.main {
+                self.installationLabel.stringValue = "Test map pushed!"
+                self.progressIndicator.stopAnimation(self)
+                let seconds = 5.0
+                DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                    self.installationLabel.stringValue = "\(self.defaultMessage)"
+            
+            }
+          }
+        }
+      }
     }
-    }
-}
+  }
 
 
