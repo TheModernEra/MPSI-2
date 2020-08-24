@@ -319,7 +319,7 @@ class ViewController: NSViewController {
             uninstallButton.title = "Are you sure?"
         }
         if clickAmount == 2 {
-            uninstallButton.title = "Uninstalling..."
+            uninstallButton.title = "Waiting for Quest..."
             let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
             
             @discardableResult
@@ -336,6 +336,7 @@ class ViewController: NSViewController {
             
             Dispatch.background {
                 _ = shell("-d", "uninstall", "com.davevillz.pavlov")
+                self.uninstallButton.title = "Uninstalling..."
                 _ = shell("-d", "uninstall", "com.vankrupt.pavlov")
                 _ = shell("-d", "kill-server")
                 Dispatch.main {
@@ -347,9 +348,31 @@ class ViewController: NSViewController {
                         self.uninstallButton.title = "Uninstall"
                 }
               }
-            }
+           }
         }
     }
-  }
+    @IBAction func deleteMapsFolderButtonPushed(_ sender: Any) {
+        let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
+        
+        @discardableResult
+        func shell(_ args: String...) -> Int32 {
+        let task = Process()
+        task.launchPath = stringPath
+        task.arguments = args
+        task.launch()
+        task.waitUntilExit()
+        return task.terminationStatus
+        }
+        
+        _ = shell("shell", "rm", "-r", "/sdcard/pavlov/maps")
+        _ = shell("-d", "kill-server")
+        
+        self.installationLabel.stringValue = "Maps folder deleted!"
+        let seconds = 5.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.installationLabel.stringValue = "\(self.defaultMessage)"
+        }
+    }
+}
 
 

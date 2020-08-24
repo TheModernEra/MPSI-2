@@ -811,7 +811,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xWF-mq-ljT">
-                                <rect key="frame" x="197" y="48" width="165" height="32"/>
+                                <rect key="frame" x="195" y="48" width="165" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Push Test Map From DL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SJG-KX-CGy">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -822,11 +822,11 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IYK-0I-M4Z">
-                                <rect key="frame" x="197" y="13" width="165" height="32"/>
+                                <rect key="frame" x="299" y="13" width="165" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Uninstall" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ml6-26-ESM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system" size="11"/>
+                                    <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="uninstallButtonPressed:" target="XfG-lQ-9wD" id="feJ-T8-wEq"/>
@@ -841,6 +841,17 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="permsButtonPressed:" target="XfG-lQ-9wD" id="pYH-CW-8Lx"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JSo-9f-BnE">
+                                <rect key="frame" x="98" y="13" width="165" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Delete Maps Folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tmQ-Dr-oXC">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="deleteMapsFolderButtonPushed:" target="XfG-lQ-9wD" id="EgK-EB-GYQ"/>
                                 </connections>
                             </button>
                         </subviews>
