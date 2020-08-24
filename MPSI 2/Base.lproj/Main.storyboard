@@ -688,7 +688,7 @@
                     <window key="window" title="MPSI 2" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="597" height="338"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
@@ -700,18 +700,18 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="133.5" y="284"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="MPSI_2" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                    <view key="view" autoresizesSubviews="NO" id="m2S-Jp-Qdl">
+                        <rect key="frame" x="0.0" y="0.0" width="557" height="326"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R4y-we-h7B">
-                                <rect key="frame" x="134" y="232" width="206" height="28"/>
+                                <rect key="frame" x="176" y="284" width="206" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="Welcome to MPSI 2" id="EJ1-xN-0Np">
                                     <font key="font" metaFont="system" size="24"/>
@@ -720,7 +720,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bQn-Yu-f7Z">
-                                <rect key="frame" x="146" y="214" width="183" height="16"/>
+                                <rect key="frame" x="187" y="267" width="183" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Created by Modern Era#6041" id="1uO-RF-Era">
                                     <font key="font" metaFont="system"/>
@@ -729,7 +729,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tya-h7-bjD">
-                                <rect key="frame" x="7" y="148" width="139" height="32"/>
+                                <rect key="frame" x="25" y="204" width="139" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Download Game" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1FM-Jh-WYw">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -739,19 +739,8 @@
                                     <action selector="downloadButtonPressed:" target="XfG-lQ-9wD" id="qtP-1R-Vpw"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MrY-tk-exh">
-                                <rect key="frame" x="7" y="1" width="139" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Grant Permissions" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="u6O-sZ-Lgz">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="smallSystem"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="permsButtonPressed:" target="XfG-lQ-9wD" id="pYH-CW-8Lx"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="URi-cv-wUS">
-                                <rect key="frame" x="146" y="158" width="37" height="16"/>
+                                <rect key="frame" x="175" y="214" width="37" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="----&gt;" id="7OK-wY-UnF">
                                     <font key="font" metaFont="system"/>
@@ -760,7 +749,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UfX-V7-8hT">
-                                <rect key="frame" x="292" y="158" width="37" height="16"/>
+                                <rect key="frame" x="350" y="214" width="37" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="----&gt;" id="HBa-19-vjK">
                                     <font key="font" metaFont="system"/>
@@ -769,7 +758,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4RO-qU-eNV">
-                                <rect key="frame" x="189" y="155" width="96" height="21"/>
+                                <rect key="frame" x="231" y="211" width="96" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="ga5-g3-wjk">
                                     <font key="font" metaFont="system"/>
@@ -778,7 +767,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r6A-HI-1On">
-                                <rect key="frame" x="327" y="148" width="139" height="32"/>
+                                <rect key="frame" x="396" y="204" width="139" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Install Game" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XhI-f8-w0n">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -789,7 +778,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ri8-nY-PYa">
-                                <rect key="frame" x="93" y="49" width="294" height="92"/>
+                                <rect key="frame" x="132" y="84" width="294" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" alignment="center" placeholderString="installation status here" id="tgg-V9-gAs">
                                     <font key="font" metaFont="system"/>
@@ -798,7 +787,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YhC-Xp-uH3">
-                                <rect key="frame" x="327" y="1" width="139" height="32"/>
+                                <rect key="frame" x="396" y="48" width="139" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Set Name From Box" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5S3-1H-3VU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -809,27 +798,49 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j0K-pG-tAq">
-                                <rect key="frame" x="70" y="43" width="334" height="16"/>
+                                <rect key="frame" x="130" y="93" width="296" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Already installed Pavlov? Use these buttons to either..." id="Not-6f-enV">
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Already installed Pavlov? Use these buttons to..." id="Not-6f-enV">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="87t-OD-BFB">
-                                <rect key="frame" x="453" y="244" width="16" height="16"/>
+                                <rect key="frame" x="521" y="296" width="16" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xWF-mq-ljT">
-                                <rect key="frame" x="158" y="1" width="165" height="32"/>
+                                <rect key="frame" x="197" y="48" width="165" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Push Test Map From DL" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SJG-KX-CGy">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="mapsButtonPressed:" target="XfG-lQ-9wD" id="DP0-OQ-7ii"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IYK-0I-M4Z">
+                                <rect key="frame" x="197" y="13" width="165" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Uninstall" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ml6-26-ESM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="11"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="mapsButtonPressed:" target="XfG-lQ-9wD" id="DP0-OQ-7ii"/>
+                                    <action selector="uninstallButtonPressed:" target="XfG-lQ-9wD" id="feJ-T8-wEq"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MrY-tk-exh">
+                                <rect key="frame" x="25" y="48" width="139" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Grant Permissions" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="u6O-sZ-Lgz">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="permsButtonPressed:" target="XfG-lQ-9wD" id="pYH-CW-8Lx"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -838,11 +849,12 @@
                         <outlet property="installationLabel" destination="ri8-nY-PYa" id="4RO-Ja-k9P"/>
                         <outlet property="nameTextField" destination="4RO-qU-eNV" id="7b2-jE-w6W"/>
                         <outlet property="progressIndicator" destination="87t-OD-BFB" id="QaF-cf-HY6"/>
+                        <outlet property="uninstallButton" destination="IYK-0I-M4Z" id="2WD-2v-pHQ"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="113.5" y="683"/>
         </scene>
     </scenes>
 </document>

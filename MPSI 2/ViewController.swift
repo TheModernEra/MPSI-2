@@ -58,6 +58,8 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
+    @IBOutlet weak var uninstallButton: NSButton!
+    
     @IBOutlet weak var nameTextField: NSTextField!
     
     @IBAction func downloadButtonPressed(_ sender: Any) {
@@ -309,6 +311,44 @@ class ViewController: NSViewController {
           }
         }
       }
+    }
+    var clickAmount = 0
+    @IBAction func uninstallButtonPressed(_ sender: Any) {
+        clickAmount += 1
+        if clickAmount == 1 {
+            uninstallButton.title = "Are you sure?"
+        }
+        if clickAmount == 2 {
+            uninstallButton.title = "Uninstalling..."
+            let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
+            
+            @discardableResult
+            func shell(_ args: String...) -> Int32 {
+            let task = Process()
+            task.launchPath = stringPath
+            task.arguments = args
+            task.launch()
+            task.waitUntilExit()
+            return task.terminationStatus
+            }
+            
+            self.progressIndicator.startAnimation(self)
+            
+            Dispatch.background {
+                _ = shell("-d", "uninstall", "com.davevillz.pavlov")
+                _ = shell("-d", "uninstall", "com.vankrupt.pavlov")
+                _ = shell("-d", "kill-server")
+                Dispatch.main {
+                    self.uninstallButton.title = "Uninstalled!"
+                    self.progressIndicator.stopAnimation(self)
+                    self.clickAmount = 0
+                    let seconds = 5.0
+                    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                        self.uninstallButton.title = "Uninstall"
+                }
+              }
+            }
+        }
     }
   }
 
