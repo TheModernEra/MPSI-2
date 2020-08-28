@@ -19,17 +19,21 @@ import SSZipArchive
 
 class ViewController: NSViewController {
     let defaultMessage = "Welcome to MPSI. First, click the Download Game button to download Pavlov: Shack."
-    let pavlovBuildName = "PreReleaseBuild23_PavlovShack_C"
+    var pavlovBuildName = "placeholder"
     let usernameFilePath = NSString(string: "~").expandingTildeInPath
-    let obbName = "main.22.com.vankrupt.pavlov.obb"
+    var obbName = "placeholder"
+    var pavlovURL = "placeholder"
+    var apkName = "placeholder"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         installationLabel.stringValue = "\(defaultMessage)"
         let namePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
         let folderPath = NSString(string: "~/Downloads/\(pavlovBuildName)").expandingTildeInPath
+        let txtPath = NSString(string: "~/Downloads/upsiopts.txt").expandingTildeInPath
         let nameDoesExist = FileManager.default.fileExists(atPath: namePath)
         let folderDoesExist = FileManager.default.fileExists(atPath: folderPath)
+        let txtDoesExist = FileManager.default.fileExists(atPath: txtPath)
         if nameDoesExist == true {
             do {
                 try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/name.txt")
@@ -46,7 +50,29 @@ class ViewController: NSViewController {
                 print(error)
             }
         }
+        if txtDoesExist == true {
+            do {
+                try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/upsiopts.txt")
+            }
+            catch {
+                print(error)
+            }
+        }
         
+      let destination: DownloadRequest.Destination = { _, _ in
+                let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+                let fileURL = documentsURL.appendingPathComponent("upsiopts.txt")
+
+                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+            }
+
+            AF.download("https://thesideloader.co.uk/upsiopts.txt", to: destination).response { response in
+                debugPrint(response)
+
+                if response.error == nil, let imagePath = response.fileURL?.path {
+                    let image = NSImage(contentsOfFile: imagePath)
+                                    }
+            }
         // Do any additional setup after loading the view.
     }
 
@@ -64,7 +90,28 @@ class ViewController: NSViewController {
     @IBOutlet weak var nameTextField: NSTextField!
     
     @IBAction func downloadButtonPressed(_ sender: Any) {
+        do {
+            let txtPath: String = ("\(self.usernameFilePath)/Downloads/upsiopts.txt")
+            let txtFile = try String(contentsOfFile: txtPath)
+            let txtArray: [String] = txtFile.components(separatedBy: "\n")
+            let tempPavlovURL = txtArray[46]
+            let otherPavlovURL = tempPavlovURL.replacingOccurrences(of: "DOWNLOADFROM=", with: "")
+            pavlovURL = otherPavlovURL.replacingOccurrences(of: "\r", with: "")
+            let tempOBBName = txtArray[69]
+            let otherOBBName = tempOBBName.replacingOccurrences(of: "OBB=", with: "")
+            obbName = otherOBBName.replacingOccurrences(of: "\r", with: "")
+            let tempBuildName = txtArray[47]
+            let otherBuildName = tempBuildName.replacingOccurrences(of: "ZIPNAME=", with: "")
+            let secondBuildName = otherBuildName.replacingOccurrences(of: ".zip", with: "")
+            pavlovBuildName = secondBuildName.replacingOccurrences(of: "\r", with: "")
+            let tempAPKName = txtArray[67]
+            let otherAPKName = tempAPKName.replacingOccurrences(of: "APK=", with: "")
+            apkName = otherAPKName.replacingOccurrences(of: "\r", with: "")
+              } catch let error {
+                  Swift.print("Fatal Error: \(error.localizedDescription)")
+        }
         self.progressIndicator.startAnimation(self)
+        
         let path = NSString(string: "~/Downloads/\(pavlovBuildName).zip").expandingTildeInPath
         let fileDoesExist = FileManager.default.fileExists(atPath: path)
         if fileDoesExist == true {
@@ -86,7 +133,7 @@ class ViewController: NSViewController {
                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
                     }
 
-                AF.download("http://cdn.pavlov-vr.com/\(self.pavlovBuildName).zip", to: destination).response { response in
+                AF.download(pavlovURL, to: destination).response { response in
                 debugPrint(response)
 
                 if response.error == nil, let imagePath = response.fileURL?.path {
@@ -148,13 +195,13 @@ class ViewController: NSViewController {
                 self.progressIndicator.startAnimation(self)
                 self.installationLabel.stringValue = "Quest found and previous version deleted! Pushing apk..."
                  
-                _ = shell("-d", "install", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/Pavlov-Android-Shipping-arm64-es2.apk")
+                _ = shell("-d", "install", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/\(self.apkName)")
                  
                  _ = shell("-d", "shell", "mkdir", "/sdcard/Android/obb/com.vankrupt.pavlov")
                 
                 self.installationLabel.stringValue = "APK install completed! Beginning OBB push. This may take a while, please be patient!"
                  
-                _ = shell("-d", "push", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/main.22.com.vankrupt.pavlov.obb", "/sdcard/Android/obb/com.vankrupt.pavlov/")
+                _ = shell("-d", "push", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/\(self.obbName)", "/sdcard/Android/obb/com.vankrupt.pavlov/")
                  
                 self.installationLabel.stringValue = "OBB push complete! Setting permissions and setting name..."
                  
@@ -169,9 +216,11 @@ class ViewController: NSViewController {
                 let namePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
                 let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName)").expandingTildeInPath
                 let zipPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
+                let txtPath = NSString(string: "~/Downloads/upsiopts.txt").expandingTildeInPath
                 let nameDoesExist = FileManager.default.fileExists(atPath: namePath)
                 let folderDoesExist = FileManager.default.fileExists(atPath: folderPath)
                 let zipDoesExist = FileManager.default.fileExists(atPath: zipPath)
+                let txtDoesExist = FileManager.default.fileExists(atPath: txtPath)
                 if nameDoesExist == true {
                     do {
                         try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/name.txt")
@@ -191,6 +240,14 @@ class ViewController: NSViewController {
                 if zipDoesExist == true {
                     do {
                         try FileManager.default.removeItem(atPath:"\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName).zip")
+                    }
+                    catch {
+                        print(error)
+                    }
+                }
+                if txtDoesExist == true {
+                    do {
+                        try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/upsiopts.txt")
                     }
                     catch {
                         print(error)
