@@ -11,6 +11,4 @@ The app will only run on macOS 10.12 and higher. I tried to get lower compatibil
 4. Double-click "MPSI.2.zip" in Finder
 5. Right click "MPSI 2.app", then click "Open"
 
-![Image of MPSI]
-(https://imgur.com/vQAQl7S)
-
+![Imgur](https://i.imgur.com/vQAQl7S.png)
