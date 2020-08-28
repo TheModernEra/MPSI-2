@@ -7,6 +7,10 @@ The app will only run on macOS 10.12 and higher. I tried to get lower compatibil
 # How do I use it?
 1. Go to https://github.com/TheModernEra/MPSI-2/releases
 2. Under the latest version at the top of the page, click "Assets"
-3. Click "MPSI.zip" to download the app.
-4. Double-click "MPSI.zip" in Finder
-5. Right click "MPSI.app", then click "Open"
+3. Click "MPSI.2.zip" to download the app.
+4. Double-click "MPSI.2.zip" in Finder
+5. Right click "MPSI 2.app", then click "Open"
+
+![Image of MPSI]
+(https://imgur.com/vQAQl7S)
+
