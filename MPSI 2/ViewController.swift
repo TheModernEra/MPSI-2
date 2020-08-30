@@ -19,8 +19,9 @@ import SSZipArchive
 
 class ViewController: NSViewController {
     let defaultMessage = "Welcome to MPSI. First, click the Download Game button to download Pavlov: Shack."
-    var pavlovBuildName = "placeholder"
     let usernameFilePath = NSString(string: "~").expandingTildeInPath
+    
+    var pavlovBuildName = "placeholder"
     var obbName = "placeholder"
     var pavlovURL = "placeholder"
     var apkName = "placeholder"
@@ -94,19 +95,31 @@ class ViewController: NSViewController {
             let txtPath: String = ("\(self.usernameFilePath)/Downloads/upsiopts.txt")
             let txtFile = try String(contentsOfFile: txtPath)
             let txtArray: [String] = txtFile.components(separatedBy: "\n")
-            let tempPavlovURL = txtArray[46]
-            let otherPavlovURL = tempPavlovURL.replacingOccurrences(of: "DOWNLOADFROM=", with: "")
-            pavlovURL = otherPavlovURL.replacingOccurrences(of: "\r", with: "")
-            let tempOBBName = txtArray[69]
-            let otherOBBName = tempOBBName.replacingOccurrences(of: "OBB=", with: "")
-            obbName = otherOBBName.replacingOccurrences(of: "\r", with: "")
-            let tempBuildName = txtArray[47]
-            let otherBuildName = tempBuildName.replacingOccurrences(of: "ZIPNAME=", with: "")
-            let secondBuildName = otherBuildName.replacingOccurrences(of: ".zip", with: "")
-            pavlovBuildName = secondBuildName.replacingOccurrences(of: "\r", with: "")
-            let tempAPKName = txtArray[67]
-            let otherAPKName = tempAPKName.replacingOccurrences(of: "APK=", with: "")
-            apkName = otherAPKName.replacingOccurrences(of: "\r", with: "")
+            if let firstPavlovURL = txtArray.firstIndex(of: "ID=2\r") {
+               let secondPavlovURL = txtArray[firstPavlovURL+3]
+               let thirdPavlovURL = secondPavlovURL.replacingOccurrences(of: "DOWNLOADFROM=", with: "")
+               pavlovURL = thirdPavlovURL.replacingOccurrences(of: "\r", with: "")
+                print(pavlovURL)
+            }
+            if let firstBuildName = txtArray.firstIndex(of: "ID=2\r") {
+                let secondBuildName = txtArray[firstBuildName+4]
+                let thirdBuildName = secondBuildName.replacingOccurrences(of: "ZIPNAME=", with: "")
+                let fourthBuildName = thirdBuildName.replacingOccurrences(of: ".zip", with: "")
+                pavlovBuildName = fourthBuildName.replacingOccurrences(of: "\r", with: "")
+                print(pavlovBuildName)
+            }
+            if let firstOBBName = txtArray.firstIndex(of: "ID=2\r") {
+                let secondOBBName = txtArray[firstOBBName+26]
+                let thirdOBBName = secondOBBName.replacingOccurrences(of: "OBB=", with: "")
+                obbName = thirdOBBName.replacingOccurrences(of: "\r", with: "")
+                print(obbName)
+            }
+            if let firstAPKName = txtArray.firstIndex(of: "ID=2\r") {
+                let secondAPKName = txtArray[firstAPKName+24]
+                let thirdAPKName = secondAPKName.replacingOccurrences(of: "APK=", with: "")
+                apkName = thirdAPKName.replacingOccurrences(of: "\r", with: "")
+                print(apkName)
+            }
               } catch let error {
                   Swift.print("Fatal Error: \(error.localizedDescription)")
         }
@@ -370,6 +383,7 @@ class ViewController: NSViewController {
         }
       }
     }
+    
     var clickAmount = 0
     @IBAction func uninstallButtonPressed(_ sender: Any) {
         clickAmount += 1
