@@ -159,10 +159,12 @@ class ViewController: NSViewController {
                 let image = NSImage(contentsOfFile: imagePath)
                 self.installationLabel.stringValue = "Download complete! Unzipping downloaded game files..."
                 Dispatch.background {
-                    let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
-                    let zipPath = URL(fileURLWithPath: folderPath)
+                    let zipFolderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
+                    let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName)").expandingTildeInPath
+                    let downloadDirectory = URL(fileURLWithPath: folderPath)
+                    let zipPath = URL(fileURLWithPath: zipFolderPath)
                     do {
-                        try Zip.quickUnzipFile(zipPath)
+                        try Zip.unzipFile(zipPath, destination: downloadDirectory, overwrite: true, password: nil)
                     }
                     catch {
                         print(error)
