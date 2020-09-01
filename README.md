@@ -1,5 +1,5 @@
 # What is MPSI 2?
-MPSI 2 is a native macOS app for installing the Oculus Quest game "Pavlov: Shack"
+MPSI 2 (Modern's Pavlov Shack Installer 2) is a native macOS app for installing the Oculus Quest game "Pavlov: Shack"
 
 ![Imgur](https://i.imgur.com/vQAQl7S.png)
 
