@@ -15,7 +15,6 @@
 import Cocoa
 import Foundation
 import Alamofire
-import SSZipArchive
 import Zip
 
 class ViewController: NSViewController {
@@ -160,8 +159,14 @@ class ViewController: NSViewController {
                 let image = NSImage(contentsOfFile: imagePath)
                 self.installationLabel.stringValue = "Download complete! Unzipping downloaded game files..."
                 Dispatch.background {
-                SSZipArchive.unzipFile(atPath: "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName).zip", toDestination: "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)")
-
+                    let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
+                    let zipPath = URL(fileURLWithPath: folderPath)
+                    do {
+                        try Zip.quickUnzipFile(zipPath)
+                    }
+                    catch {
+                        print(error)
+                    }
                 Dispatch.main {
                 self.installationLabel.stringValue = "Game files downloaded and unzipped! You can now enter your name in the box in the middle, then press install game."
                     self.progressIndicator.stopAnimation(self)
