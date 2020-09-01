@@ -22,11 +22,11 @@ It won't let you open the app because I would have to pay $100 for verification,
 
 99.99% of the time, this is due to the cable not providing a sufficient connection to the Quest. Unplug and replug the cable, switch up the port it's plugged into, or use a different cable.
 
-**The installation is stuck on "Pushing OBB!"**
+**The installation is stuck on "Pushing OBB"!**
 
 This part does take a while, and the speed really depends on your cable. On average for me, it takes around 3-4 minutes. I would say give it a maximum of 10 minutes before pressing "Command + Q" in MPSI and restarting the procedure. If it gets stuck multiple times, try a different cable.
 
-**The download is stuck on "Downloading game files!"**
+**The download is stuck on "Downloading game files"!**
 
 Rarely, the download API I used just doesn't like to work. MPSI supports using previously downloaded game files, as long as they are the latest version, zipped with the default name, and stored in the "Downloads" Folder
 
