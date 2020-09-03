@@ -92,37 +92,46 @@ class ViewController: NSViewController {
     
     @IBAction func downloadButtonPressed(_ sender: Any) {
         do {
-            let txtPath: String = ("\(self.usernameFilePath)/Downloads/upsiopts.txt")
+            // getting array stuff
+            let txtPath: String = "\(self.usernameFilePath)/Downloads/upsiopts.txt"
             let txtFile = try String(contentsOfFile: txtPath)
             let txtArray: [String] = txtFile.components(separatedBy: "\n")
-            if let firstPavlovURL = txtArray.firstIndex(of: "ID=2\r") {
-               let secondPavlovURL = txtArray[firstPavlovURL+3]
-               let thirdPavlovURL = secondPavlovURL.replacingOccurrences(of: "DOWNLOADFROM=", with: "")
-               pavlovURL = thirdPavlovURL.replacingOccurrences(of: "\r", with: "")
-                print(pavlovURL)
-            }
-            if let firstBuildName = txtArray.firstIndex(of: "ID=2\r") {
-                let secondBuildName = txtArray[firstBuildName+4]
-                let thirdBuildName = secondBuildName.replacingOccurrences(of: "ZIPNAME=", with: "")
-                let fourthBuildName = thirdBuildName.replacingOccurrences(of: ".zip", with: "")
-                pavlovBuildName = fourthBuildName.replacingOccurrences(of: "\r", with: "")
-                print(pavlovBuildName)
-            }
-            if let firstOBBName = txtArray.firstIndex(of: "ID=2\r") {
-                let secondOBBName = txtArray[firstOBBName+26]
-                let thirdOBBName = secondOBBName.replacingOccurrences(of: "OBB=", with: "")
-                obbName = thirdOBBName.replacingOccurrences(of: "\r", with: "")
-                print(obbName)
-            }
-            if let firstAPKName = txtArray.firstIndex(of: "ID=2\r") {
-                let secondAPKName = txtArray[firstAPKName+24]
-                let thirdAPKName = secondAPKName.replacingOccurrences(of: "APK=", with: "")
-                apkName = thirdAPKName.replacingOccurrences(of: "\r", with: "")
-                print(apkName)
-            }
-              } catch let error {
-                  Swift.print("Fatal Error: \(error.localizedDescription)")
+            let separator = "END\r"
+            let array = txtArray.split(separator: separator)
+            let pavlovArray = Array(array[1])
+            
+            // URL for pavlov
+            let firstPavlovURL = pavlovArray.firstIndex(where: { $0.hasPrefix("DOWNLOADFROM=") })!
+            let secondPavlovURL = pavlovArray[firstPavlovURL]
+            let thirdPavlovURL = secondPavlovURL.replacingOccurrences(of: "DOWNLOADFROM=", with: "")
+            pavlovURL = thirdPavlovURL.replacingOccurrences(of: "\r", with: "")
+            print(pavlovURL)
+            
+            // OBB file name
+            let firstOBBName = pavlovArray.firstIndex(where: {$0.hasPrefix("OBB=")})!
+            let secondOBBName = pavlovArray[firstOBBName]
+            let thirdOBBName = secondOBBName.replacingOccurrences(of: "OBB=", with: "")
+            obbName = thirdOBBName.replacingOccurrences(of: "\r", with: "")
+            print(obbName)
+            
+            // current build name
+            let firstBuildName = pavlovArray.firstIndex(where: {$0.hasPrefix("ZIPNAME=")})!
+            let secondBuildName = pavlovArray[firstBuildName]
+            let thirdBuildName = secondBuildName.replacingOccurrences(of: "ZIPNAME=", with: "")
+            let fourthBuildName = thirdBuildName.replacingOccurrences(of: ".zip", with: "")
+            pavlovBuildName = fourthBuildName.replacingOccurrences(of: "\r", with: "")
+            print(pavlovBuildName)
+            
+            // APK file name
+            let firstAPKName = pavlovArray.firstIndex(where: {$0.hasPrefix("APK=")})!
+            let secondAPKName = pavlovArray[firstAPKName]
+            let thirdAPKName = secondAPKName.replacingOccurrences(of: "APK=", with: "")
+            apkName = thirdAPKName.replacingOccurrences(of: "\r", with: "")
+            print(apkName)
+        } catch let error {
+            Swift.print("Fatal Error: \(error.localizedDescription)")
         }
+        
         self.progressIndicator.startAnimation(self)
         
         let path = NSString(string: "~/Downloads/\(pavlovBuildName).zip").expandingTildeInPath
