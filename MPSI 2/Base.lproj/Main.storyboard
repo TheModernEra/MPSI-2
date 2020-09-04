@@ -849,14 +849,19 @@
                                 <rect key="frame" x="76" y="93" width="407" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" alignment="center" placeholderString="installation status here" id="tgg-V9-gAs">
-                                    <font key="font" metaFont="system" size="12"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <progressIndicator fixedFrame="YES" maxValue="100" doubleValue="50" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="fVu-3V-9xB">
+                                <rect key="frame" x="227" y="116" width="100" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="downloadProgressIndicator" destination="fVu-3V-9xB" id="HDC-Cf-ExT"/>
                         <outlet property="installationLabel" destination="ri8-nY-PYa" id="4RO-Ja-k9P"/>
                         <outlet property="nameTextField" destination="4RO-qU-eNV" id="7b2-jE-w6W"/>
                         <outlet property="progressIndicator" destination="87t-OD-BFB" id="QaF-cf-HY6"/>

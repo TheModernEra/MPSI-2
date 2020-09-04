@@ -28,6 +28,8 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        downloadProgressIndicator.isHidden = true
+        progressIndicator.isHidden = true
         installationLabel.stringValue = "\(defaultMessage)"
         let namePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
         let folderPath = NSString(string: "~/Downloads/\(pavlovBuildName)").expandingTildeInPath
@@ -84,6 +86,8 @@ class ViewController: NSViewController {
     }
     @IBOutlet weak var installationLabel: NSTextField!
     
+    @IBOutlet weak var downloadProgressIndicator: NSProgressIndicator!
+    
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
     @IBOutlet weak var uninstallButton: NSButton!
@@ -138,6 +142,7 @@ class ViewController: NSViewController {
         let fileDoesExist = FileManager.default.fileExists(atPath: path)
         if fileDoesExist == true {
             installationLabel.stringValue = "Looks like you already have the game files downloaded! Unzipping them now..."
+            self.progressIndicator.isHidden = false
             Dispatch.background {
                 let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
                 let zipPath = URL(fileURLWithPath: folderPath)
@@ -155,18 +160,23 @@ class ViewController: NSViewController {
             
         } else {
             installationLabel.stringValue = "Game files not found. Downloading them now. This text will update when the download is finished, please be patient!"
-                let destination: DownloadRequest.Destination = { _, _ in
+            downloadProgressIndicator.isHidden = false
+            let destination: DownloadRequest.Destination = { _, _ in
                 let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
                 let fileURL = documentsURL.appendingPathComponent("\(self.pavlovBuildName).zip")
                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
                     }
 
-                AF.download(pavlovURL, to: destination).response { response in
+                AF.download(pavlovURL, to: destination).downloadProgress { progress in
+                    self.downloadProgressIndicator.doubleValue = (progress.fractionCompleted * 100)
+            }.response { response in
                 debugPrint(response)
 
                 if response.error == nil, let imagePath = response.fileURL?.path {
                 let image = NSImage(contentsOfFile: imagePath)
-                self.installationLabel.stringValue = "Download complete! Unzipping downloaded game files..."
+                    self.downloadProgressIndicator.isHidden = true
+                    self.installationLabel.stringValue = "Download complete! Unzipping downloaded game files..."
+                    self.progressIndicator.isHidden = false
                 Dispatch.background {
                     let zipFolderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
                     let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName)").expandingTildeInPath
@@ -181,6 +191,7 @@ class ViewController: NSViewController {
                 Dispatch.main {
                 self.installationLabel.stringValue = "Game files downloaded and unzipped! You can now enter your name in the box in the middle, then press install game."
                     self.progressIndicator.stopAnimation(self)
+                    self.progressIndicator.isHidden = true
                         }
                     }
                 }
@@ -229,6 +240,7 @@ class ViewController: NSViewController {
                  _ = shell("-d", "shell", "rm", "-r", "/sdcard/Android/obb/com.vankrupt.pavlov")
                  
                 self.progressIndicator.startAnimation(self)
+                self.progressIndicator.isHidden = false
                 self.installationLabel.stringValue = "Quest found and previous version deleted! Pushing apk..."
                  
                 _ = shell("-d", "install", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/\(self.apkName)")
@@ -293,6 +305,7 @@ class ViewController: NSViewController {
                 Dispatch.main {
                     self.installationLabel.stringValue = "Installation complete. You can now close MPSI. Enjoy Pavlov: Shack!"
                     self.progressIndicator.stopAnimation(self)
+                    self.progressIndicator.isHidden = true
                     let seconds = 10.0
                     DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
                         self.installationLabel.stringValue = "\(self.defaultMessage)"
@@ -427,6 +440,7 @@ class ViewController: NSViewController {
             return task.terminationStatus
             }
             
+            self.progressIndicator.isHidden = false
             self.progressIndicator.startAnimation(self)
             
             Dispatch.background {
@@ -437,6 +451,7 @@ class ViewController: NSViewController {
                 Dispatch.main {
                     self.uninstallButton.title = "Uninstalled!"
                     self.progressIndicator.stopAnimation(self)
+                    self.progressIndicator.isHidden = true
                     self.clickAmount = 0
                     let seconds = 5.0
                     DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
