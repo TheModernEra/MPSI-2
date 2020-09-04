@@ -20,6 +20,7 @@ import Zip
 class ViewController: NSViewController {
     let defaultMessage = "Welcome to MPSI. First, click the Download Game button to download Pavlov: Shack."
     let usernameFilePath = NSString(string: "~").expandingTildeInPath
+
     
     var pavlovBuildName = "placeholder"
     var obbName = "placeholder"
@@ -28,6 +29,7 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("test")
         downloadProgressIndicator.isHidden = true
         progressIndicator.isHidden = true
         installationLabel.stringValue = "\(defaultMessage)"
