@@ -29,7 +29,6 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("test")
         downloadProgressIndicator.isHidden = true
         progressIndicator.isHidden = true
         installationLabel.stringValue = "\(defaultMessage)"
