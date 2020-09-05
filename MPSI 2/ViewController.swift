@@ -46,14 +46,6 @@ class ViewController: NSViewController {
                 print(error)
             }
         }
-        if folderDoesExist == true {
-            do {
-                try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/\(pavlovBuildName)")
-            }
-            catch {
-                print(error)
-            }
-        }
         if txtDoesExist == true {
             do {
                 try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/upsiopts.txt")
@@ -140,25 +132,33 @@ class ViewController: NSViewController {
         self.progressIndicator.startAnimation(self)
         
         let path = NSString(string: "~/Downloads/\(pavlovBuildName).zip").expandingTildeInPath
+        let obbPath = NSString(string: "~/Downloads/\(pavlovBuildName)/\(obbName)").expandingTildeInPath
         let fileDoesExist = FileManager.default.fileExists(atPath: path)
-        if fileDoesExist == true {
+        let obbDoesExist = FileManager.default.fileExists(atPath: obbPath)
+        if fileDoesExist == true && obbDoesExist == false {
             installationLabel.stringValue = "Looks like you already have the game files downloaded! Unzipping them now..."
             self.progressIndicator.isHidden = false
             Dispatch.background {
-                let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
-                let zipPath = URL(fileURLWithPath: folderPath)
+                let zipFolderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
+                let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName)").expandingTildeInPath
+                let folderURL = URL(fileURLWithPath: folderPath)
+                let zipFolderURL = URL(fileURLWithPath: zipFolderPath)
                 do {
-                    try Zip.quickUnzipFile(zipPath)
-                }
+                    try Zip.unzipFile(zipFolderURL, destination: folderURL, overwrite: true, password: nil)                }
                 catch {
                     print(error)
                 }
                 Dispatch.main {
                     self.installationLabel.stringValue = "Game files unzipped! You can now enter your name in the box in the middle, then press install game."
                     self.progressIndicator.stopAnimation(self)
+                    self.progressIndicator.isHidden = true
                 }
             }
             
+        } else if obbDoesExist == true {
+            installationLabel.stringValue = "Seems like you have the game files downloaded and unzipped already! You can go enter your name in the middle box and press install game."
+            self.progressIndicator.stopAnimation(self)
+            progressIndicator.isHidden = true
         } else {
             installationLabel.stringValue = "Game files not found. Downloading them now. This text will update when the download is finished, please be patient!"
             downloadProgressIndicator.isHidden = false
