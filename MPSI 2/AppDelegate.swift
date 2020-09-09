@@ -27,18 +27,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         let destination: DownloadRequest.Destination = { _, _ in
-                  let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
-                  let fileURL = documentsURL.appendingPathComponent("upsiopts.txt")
+        let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("upsiopts.txt")
 
-                  return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-              }
+        return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
 
-              AF.download("https://thesideloader.co.uk/upsiopts.txt", to: destination).response { response in
-                  debugPrint(response)
+        AF.download("https://thesideloader.co.uk/upsiopts.txt", to: destination).response { response in
+        debugPrint(response)
 
-                  if response.error == nil, let imagePath = response.fileURL?.path {
-                      let image = NSImage(contentsOfFile: imagePath)
-                                      }
+            if response.error == nil, let imagePath = response.fileURL?.path {
+                    }
               }
 
     }

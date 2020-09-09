@@ -33,10 +33,8 @@ class ViewController: NSViewController {
         progressIndicator.isHidden = true
         installationLabel.stringValue = "\(defaultMessage)"
         let namePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
-        let folderPath = NSString(string: "~/Downloads/\(pavlovBuildName)").expandingTildeInPath
         let txtPath = NSString(string: "~/Downloads/upsiopts.txt").expandingTildeInPath
         let nameDoesExist = FileManager.default.fileExists(atPath: namePath)
-        let folderDoesExist = FileManager.default.fileExists(atPath: folderPath)
         let txtDoesExist = FileManager.default.fileExists(atPath: txtPath)
         if nameDoesExist == true {
             do {
@@ -159,7 +157,6 @@ class ViewController: NSViewController {
                 debugPrint(response)
 
                 if response.error == nil, let imagePath = response.fileURL?.path {
-                let image = NSImage(contentsOfFile: imagePath)
                     self.downloadProgressIndicator.isHidden = true
                     self.installationLabel.stringValue = "Download complete! Unzipping downloaded game files..."
                     self.progressIndicator.isHidden = false
