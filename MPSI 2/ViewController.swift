@@ -31,6 +31,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         downloadProgressIndicator.isHidden = true
         progressIndicator.isHidden = true
+        downloadButton.isEnabled = false
         installationLabel.stringValue = "\(defaultMessage)"
         let namePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
         let txtPath = NSString(string: "~/Downloads/upsiopts.txt").expandingTildeInPath
@@ -63,6 +64,7 @@ class ViewController: NSViewController {
         debugPrint(response)
 
             if response.error == nil, let imagePath = response.fileURL?.path {
+                self.downloadButton.isEnabled = true
                     do {
                         // getting array stuff
                         let txtPath: String = "\(self.usernameFilePath)/Downloads/upsiopts.txt"
@@ -122,6 +124,8 @@ class ViewController: NSViewController {
     @IBOutlet weak var uninstallButton: NSButton!
     
     @IBOutlet weak var nameTextField: NSTextField!
+    
+    @IBOutlet weak var downloadButton: NSButton!
     
     @IBAction func downloadButtonPressed(_ sender: Any) {
         self.progressIndicator.startAnimation(self)
