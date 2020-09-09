@@ -64,7 +64,6 @@ class ViewController: NSViewController {
         debugPrint(response)
 
             if response.error == nil, let imagePath = response.fileURL?.path {
-                self.downloadButton.isEnabled = true
                     do {
                         // getting array stuff
                         let txtPath: String = "\(self.usernameFilePath)/Downloads/upsiopts.txt"
@@ -105,6 +104,7 @@ class ViewController: NSViewController {
                     } catch let error {
                         Swift.print("Fatal Error: \(error.localizedDescription)")
                     }
+                     self.downloadButton.isEnabled = true
                   }
                 }
         // Do any additional setup after loading the view.
