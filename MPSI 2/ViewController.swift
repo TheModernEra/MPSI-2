@@ -52,6 +52,59 @@ class ViewController: NSViewController {
                 print(error)
             }
         }
+        let destination: DownloadRequest.Destination = { _, _ in
+        let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("upsiopts.txt")
+
+        return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+
+        AF.download("https://thesideloader.co.uk/upsiopts.txt", to: destination).response { response in
+        debugPrint(response)
+
+            if response.error == nil, let imagePath = response.fileURL?.path {
+                    do {
+                        // getting array stuff
+                        let txtPath: String = "\(self.usernameFilePath)/Downloads/upsiopts.txt"
+                        let txtFile = try String(contentsOfFile: txtPath)
+                        let txtArray: [String] = txtFile.components(separatedBy: "\n")
+                        let separator = "END\r"
+                        let array = txtArray.split(separator: separator)
+                        let pavlovArray = Array(array[1])
+                        
+                        // URL for pavlov
+                        let firstPavlovURL = pavlovArray.firstIndex(where: { $0.hasPrefix("DOWNLOADFROM=") })!
+                        let secondPavlovURL = pavlovArray[firstPavlovURL]
+                        let thirdPavlovURL = secondPavlovURL.replacingOccurrences(of: "DOWNLOADFROM=", with: "")
+                        self.pavlovURL = thirdPavlovURL.replacingOccurrences(of: "\r", with: "")
+                        print(self.pavlovURL)
+                        
+                        // OBB file name
+                        let firstOBBName = pavlovArray.firstIndex(where: {$0.hasPrefix("OBB=")})!
+                        let secondOBBName = pavlovArray[firstOBBName]
+                        let thirdOBBName = secondOBBName.replacingOccurrences(of: "OBB=", with: "")
+                        self.obbName = thirdOBBName.replacingOccurrences(of: "\r", with: "")
+                        print(self.obbName)
+                        
+                        // current build name
+                        let firstBuildName = pavlovArray.firstIndex(where: {$0.hasPrefix("ZIPNAME=")})!
+                        let secondBuildName = pavlovArray[firstBuildName]
+                        let thirdBuildName = secondBuildName.replacingOccurrences(of: "ZIPNAME=", with: "")
+                        let fourthBuildName = thirdBuildName.replacingOccurrences(of: ".zip", with: "")
+                        self.pavlovBuildName = fourthBuildName.replacingOccurrences(of: "\r", with: "")
+                        print(self.pavlovBuildName)
+                        
+                        // APK file name
+                        let firstAPKName = pavlovArray.firstIndex(where: {$0.hasPrefix("APK=")})!
+                        let secondAPKName = pavlovArray[firstAPKName]
+                        let thirdAPKName = secondAPKName.replacingOccurrences(of: "APK=", with: "")
+                        self.apkName = thirdAPKName.replacingOccurrences(of: "\r", with: "")
+                        print(self.apkName)
+                    } catch let error {
+                        Swift.print("Fatal Error: \(error.localizedDescription)")
+                    }
+                  }
+                }
         // Do any additional setup after loading the view.
     }
 
@@ -71,47 +124,6 @@ class ViewController: NSViewController {
     @IBOutlet weak var nameTextField: NSTextField!
     
     @IBAction func downloadButtonPressed(_ sender: Any) {
-        do {
-            // getting array stuff
-            let txtPath: String = "\(self.usernameFilePath)/Downloads/upsiopts.txt"
-            let txtFile = try String(contentsOfFile: txtPath)
-            let txtArray: [String] = txtFile.components(separatedBy: "\n")
-            let separator = "END\r"
-            let array = txtArray.split(separator: separator)
-            let pavlovArray = Array(array[1])
-            
-            // URL for pavlov
-            let firstPavlovURL = pavlovArray.firstIndex(where: { $0.hasPrefix("DOWNLOADFROM=") })!
-            let secondPavlovURL = pavlovArray[firstPavlovURL]
-            let thirdPavlovURL = secondPavlovURL.replacingOccurrences(of: "DOWNLOADFROM=", with: "")
-            pavlovURL = thirdPavlovURL.replacingOccurrences(of: "\r", with: "")
-            print(pavlovURL)
-            
-            // OBB file name
-            let firstOBBName = pavlovArray.firstIndex(where: {$0.hasPrefix("OBB=")})!
-            let secondOBBName = pavlovArray[firstOBBName]
-            let thirdOBBName = secondOBBName.replacingOccurrences(of: "OBB=", with: "")
-            obbName = thirdOBBName.replacingOccurrences(of: "\r", with: "")
-            print(obbName)
-            
-            // current build name
-            let firstBuildName = pavlovArray.firstIndex(where: {$0.hasPrefix("ZIPNAME=")})!
-            let secondBuildName = pavlovArray[firstBuildName]
-            let thirdBuildName = secondBuildName.replacingOccurrences(of: "ZIPNAME=", with: "")
-            let fourthBuildName = thirdBuildName.replacingOccurrences(of: ".zip", with: "")
-            pavlovBuildName = fourthBuildName.replacingOccurrences(of: "\r", with: "")
-            print(pavlovBuildName)
-            
-            // APK file name
-            let firstAPKName = pavlovArray.firstIndex(where: {$0.hasPrefix("APK=")})!
-            let secondAPKName = pavlovArray[firstAPKName]
-            let thirdAPKName = secondAPKName.replacingOccurrences(of: "APK=", with: "")
-            apkName = thirdAPKName.replacingOccurrences(of: "\r", with: "")
-            print(apkName)
-        } catch let error {
-            Swift.print("Fatal Error: \(error.localizedDescription)")
-        }
-        
         self.progressIndicator.startAnimation(self)
         
         let path = NSString(string: "~/Downloads/\(pavlovBuildName).zip").expandingTildeInPath
