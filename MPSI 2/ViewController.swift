@@ -226,7 +226,7 @@ class ViewController: NSViewController {
 
                  data.write(toFile: "\(dir)/name.txt", atomically: true)
              }
-            installationLabel.stringValue = "Beginning game installation! Looking for Quest. If your Quest is plugged in and you're stuck here, try a different USB port or a different cable."
+            installationLabel.stringValue = "Beginning game installation! Looking for Quest. If your Quest is plugged in and you're stuck here, check inside of your headset for a prompt, try a different USB port or a different cable."
             let stringPath = Bundle.main.path(forResource: "adb", ofType: "")
             
             @discardableResult
