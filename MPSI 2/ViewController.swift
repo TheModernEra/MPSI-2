@@ -35,8 +35,11 @@ class ViewController: NSViewController {
         installationLabel.stringValue = "\(defaultMessage)"
         let namePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
         let txtPath = NSString(string: "~/Downloads/upsiopts.txt").expandingTildeInPath
+        let folderPath = NSString(string: "~/Downloads/MPSI Stuff").expandingTildeInPath
         let nameDoesExist = FileManager.default.fileExists(atPath: namePath)
         let txtDoesExist = FileManager.default.fileExists(atPath: txtPath)
+        let folderDoesExist = FileManager.default.fileExists(atPath: folderPath)
+        print(folderDoesExist)
         if nameDoesExist == true {
             do {
                 try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/name.txt")
@@ -53,9 +56,18 @@ class ViewController: NSViewController {
                 print(error)
             }
         }
+        if folderDoesExist == true {
+            do {
+                try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/MPSI Stuff")
+            }
+            catch {
+                print(error)
+            }
+        }
         let destination: DownloadRequest.Destination = { _, _ in
-        let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
-        let fileURL = documentsURL.appendingPathComponent("upsiopts.txt")
+        let folderURLString = NSString(string: "~/Downloads/MPSI Stuff").expandingTildeInPath
+        let folderPathURL = URL(fileURLWithPath: folderURLString)
+        let fileURL = folderPathURL.appendingPathComponent("upsiopts.txt")
 
         return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
@@ -66,7 +78,7 @@ class ViewController: NSViewController {
             if response.error == nil, let imagePath = response.fileURL?.path {
                     do {
                         // getting array stuff
-                        let txtPath: String = "\(self.usernameFilePath)/Downloads/upsiopts.txt"
+                        let txtPath: String = "\(self.usernameFilePath)/Downloads/MPSI Stuff/upsiopts.txt"
                         let txtFile = try String(contentsOfFile: txtPath)
                         let txtArray: [String] = txtFile.components(separatedBy: "\n")
                         let separator = "END\r"
@@ -139,11 +151,14 @@ class ViewController: NSViewController {
             self.progressIndicator.isHidden = false
             Dispatch.background {
                 let zipFolderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
-                let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName)").expandingTildeInPath
+                let folderPath = NSString(string: "~/Downloads/MPSI Stuff/\(self.pavlovBuildName)").expandingTildeInPath
                 let folderURL = URL(fileURLWithPath: folderPath)
                 let zipFolderURL = URL(fileURLWithPath: zipFolderPath)
                 do {
-                    try Zip.unzipFile(zipFolderURL, destination: folderURL, overwrite: true, password: nil)                }
+                    try Zip.unzipFile(zipFolderURL, destination: folderURL, overwrite: true, password: nil, progress: { (progress) -> () in
+                        print(progress)
+                    })
+                }
                 catch {
                     print(error)
                 }
@@ -153,18 +168,14 @@ class ViewController: NSViewController {
                     self.progressIndicator.isHidden = true
                 }
             }
-            
-        } else if obbDoesExist == true {
-            installationLabel.stringValue = "Seems like you have the game files downloaded and unzipped already! You can go enter your name in the middle box and press install game."
-            self.progressIndicator.stopAnimation(self)
-            progressIndicator.isHidden = true
         } else {
             installationLabel.stringValue = "Game files not found. Downloading them now. This text will update when the download is finished, please be patient!"
             downloadProgressIndicator.isHidden = false
             let destination: DownloadRequest.Destination = { _, _ in
-                let documentsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
-                let fileURL = documentsURL.appendingPathComponent("\(self.pavlovBuildName).zip")
-                return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+               let folderURLString = NSString(string: "~/Downloads/MPSI Stuff").expandingTildeInPath
+               let folderPathURL = URL(fileURLWithPath: folderURLString)
+               let fileURL = folderPathURL.appendingPathComponent("\(self.pavlovBuildName).zip")
+               return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
                     }
 
                 AF.download(pavlovURL, to: destination).downloadProgress { progress in
@@ -177,8 +188,8 @@ class ViewController: NSViewController {
                     self.installationLabel.stringValue = "Download complete! Unzipping downloaded game files..."
                     self.progressIndicator.isHidden = false
                 Dispatch.background {
-                    let zipFolderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
-                    let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName)").expandingTildeInPath
+                    let zipFolderPath = NSString(string: "~/Downloads/MPSI Stuff/\(self.pavlovBuildName).zip").expandingTildeInPath
+                    let folderPath = NSString(string: "~/Downloads/MPSI Stuff/\(self.pavlovBuildName)").expandingTildeInPath
                     let downloadDirectory = URL(fileURLWithPath: folderPath)
                     let zipPath = URL(fileURLWithPath: zipFolderPath)
                     do {
@@ -199,7 +210,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func installButtonPressed(_ sender: Any) {
-        let path = NSString(string: "~/Downloads/\(pavlovBuildName)/\(obbName)").expandingTildeInPath
+        let path = NSString(string: "~/Downloads/MPSI Stuff/\(pavlovBuildName)/\(obbName)").expandingTildeInPath
         let fileDoesExist = FileManager.default.fileExists(atPath: path)
         if fileDoesExist == false {
             installationLabel.stringValue = "Unzipped game files not found. Please press Download Game to download the game or unzip already downloaded game files."
@@ -242,13 +253,13 @@ class ViewController: NSViewController {
                 self.progressIndicator.isHidden = false
                 self.installationLabel.stringValue = "Quest found and previous version deleted! Pushing apk..."
                  
-                _ = shell("-d", "install", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/\(self.apkName)")
+                _ = shell("-d", "install", "\(self.usernameFilePath)/Downloads/MPSI Stuff/\(self.pavlovBuildName)/\(self.apkName)")
                  
                  _ = shell("-d", "shell", "mkdir", "/sdcard/Android/obb/com.vankrupt.pavlov")
                 
                 self.installationLabel.stringValue = "APK install completed! Beginning OBB push. This may take a while, please be patient!"
                  
-                _ = shell("-d", "push", "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)/\(self.obbName)", "/sdcard/Android/obb/com.vankrupt.pavlov/")
+                _ = shell("-d", "push", "\(self.usernameFilePath)/Downloads/MPSI Stuff/\(self.pavlovBuildName)/\(self.obbName)", "/sdcard/Android/obb/com.vankrupt.pavlov/")
                  
                 self.installationLabel.stringValue = "OBB push complete! Setting permissions and setting name..."
                  
@@ -260,46 +271,28 @@ class ViewController: NSViewController {
                 
                 self.installationLabel.stringValue = "Permissions set! Cleaning up files..."
                 
-                let namePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
-                let folderPath = NSString(string: "~/Downloads/\(self.pavlovBuildName)").expandingTildeInPath
-                let zipPath = NSString(string: "~/Downloads/\(self.pavlovBuildName).zip").expandingTildeInPath
-                let txtPath = NSString(string: "~/Downloads/upsiopts.txt").expandingTildeInPath
-                let nameDoesExist = FileManager.default.fileExists(atPath: namePath)
-                let folderDoesExist = FileManager.default.fileExists(atPath: folderPath)
-                let zipDoesExist = FileManager.default.fileExists(atPath: zipPath)
-                let txtDoesExist = FileManager.default.fileExists(atPath: txtPath)
-                if nameDoesExist == true {
-                    do {
-                        try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/name.txt")
-                    }
-                    catch {
-                        print(error)
-                    }
-                }
+                let usernameFilePath = NSString(string: "~").expandingTildeInPath
+                let folderDeletePath = NSString(string: "~/Downloads/MPSI Stuff").expandingTildeInPath
+                let nameDeletePath = NSString(string: "~/Downloads/name.txt").expandingTildeInPath
+                let folderDoesExist = FileManager.default.fileExists(atPath: folderDeletePath)
+                let nameDoesExist = FileManager.default.fileExists(atPath: nameDeletePath)
                 if folderDoesExist == true {
                     do {
-                        try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName)")
+                        try FileManager.default.removeItem(atPath: "\(usernameFilePath)/Downloads/MPSI Stuff")
                     }
                     catch {
                         print(error)
                     }
                 }
-                if zipDoesExist == true {
+                if nameDoesExist == true {
                     do {
-                        try FileManager.default.removeItem(atPath:"\(self.usernameFilePath)/Downloads/\(self.pavlovBuildName).zip")
+                        try FileManager.default.removeItem(atPath: "\(usernameFilePath)/Downloads/name.txt")
                     }
                     catch {
                         print(error)
                     }
                 }
-                if txtDoesExist == true {
-                    do {
-                        try FileManager.default.removeItem(atPath: "\(self.usernameFilePath)/Downloads/upsiopts.txt")
-                    }
-                    catch {
-                        print(error)
-                    }
-                }
+
                
                 Dispatch.main {
                     self.installationLabel.stringValue = "Installation complete. You can now close MPSI. Enjoy Pavlov: Shack!"
