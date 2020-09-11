@@ -83,7 +83,7 @@ class ViewController: NSViewController {
                         let txtArray: [String] = txtFile.components(separatedBy: "\n")
                         let separator = "END\r"
                         let array = txtArray.split(separator: separator)
-                        let pavlovArray = Array(array[1])
+                        let pavlovArray = Array(array[4])
                         
                         // URL for pavlov
                         let firstPavlovURL = pavlovArray.firstIndex(where: { $0.hasPrefix("DOWNLOADFROM=") })!
