@@ -75,7 +75,7 @@ class ViewController: NSViewController {
         AF.download("https://thesideloader.co.uk/upsiopts.txt", to: destination).response { response in
         debugPrint(response)
 
-            if response.error == nil, let imagePath = response.fileURL?.path {
+            if response.error == nil {
                     do {
                         // getting array stuff
                         let txtPath: String = "\(self.usernameFilePath)/Downloads/MPSI Stuff/upsiopts.txt"
