@@ -1,3 +1,6 @@
+# PLEASE MOVE TO BLUEBIRD!! IT IS THE SEQUEL TO THIS AND IS WAY BETTER I PROMISE
+https://github.com/TheModernEra/Bluebird
+
 # What is MPSI 2?
 MPSI 2 (Modern's Pavlov Shack Installer 2) is a native macOS app for installing the Oculus Quest game "Pavlov: Shack"
 
